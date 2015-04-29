@@ -28,7 +28,6 @@ JavaScript implementation of the ChineseFrequency object
 
     // builds new object
     var c = new ChineseFrequency();
-    console.log(c);
 ```
 
 ```javascript
@@ -39,7 +38,9 @@ JavaScript implementation of the ChineseFrequency object
 ```
 
 ```
-INPUT-STRING:隨著劇情的推進雲高爾和曼聯之間的主帥大戲正逐步推向高潮荷蘭人一方面將精力投入到國家隊的世界盃備戰另外一方面也不忘適時關注一下自己執教生涯的前途據每日星報消息雲高爾已經同意入主曼聯確認的消息將會在下週正式公佈
+INPUT-STRING:隨著劇情的推進雲高爾和曼聯之間的主帥大戲正逐步推向高潮荷蘭人一
+方面將精力投入到國家隊的世界盃備戰另外一方面也不忘適時關注一下自己執教生涯的前
+途據每日星報消息雲高爾已經同意入主曼聯確認的消息將會在下週正式公佈
 ```
 
 ```javascript
