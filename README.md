@@ -1,11 +1,9 @@
 # javascript-chinese-frequency
 JavaScript implementation of the ChineseFrequency object
 
+# DEMO
 
-## WALKTHROUGH
-
-
-### ADDING LIBRARIES
+## INSTALL
 
 + Add the following scripts to your HTML document.
 
@@ -15,9 +13,9 @@ JavaScript implementation of the ChineseFrequency object
   <script src="ChineseFrequency.js"></script>
 ```
 
-### DEMO
+## GET STARTED
 
-+ Add this demo between `<script type="text/javascript">` and `</script>` tags.
++ Add any or all of this code between `<script type="text/javascript">` and `</script>` tags.
 
 ```javascript
 
@@ -29,6 +27,8 @@ JavaScript implementation of the ChineseFrequency object
     // builds new object
     var c = new ChineseFrequency();
 ```
+
+## GETTERS AND SETTERS
 
 ```javascript
 
