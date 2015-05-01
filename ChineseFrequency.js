@@ -242,12 +242,11 @@ var ChineseFrequency = function() {
       if(_metaProcessed > 0) {
         _isListAvailable = true;
       } else {
-        _summary = '',
-        _dataRange = [],
+        _summary = '';
+        _dataRange = [];
         _csvList = '';
         return this;
       }
-
 
       bigc.sort(_desc);
 
@@ -257,7 +256,6 @@ var ChineseFrequency = function() {
         + CRLF + _padSummary('Chinese Characters' + MULTIBYTE_SPACE) + _padZero(_metaHanzi)
         + CRLF + _padSummary('~ Unique' + MULTIBYTE_SPACE) + _padZero(_metaUnique)
         + CRLF + _padSummary('~ Processed' + MULTIBYTE_SPACE) + _padZero(_metaProcessed);
-
 
       var dataRange = [];
       var csv = HEADER_ROW_CSV;
