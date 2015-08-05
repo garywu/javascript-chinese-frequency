@@ -62,19 +62,21 @@ HAS-LIST:true
 ```javascript
 
     // count summary using toString() method
-    console.log('COUNT-SUMMARY-OBJECT-TOSTRING:' + c);
+    console.info('COUNT-SUMMARY-OBJECT-TOSTRING:' );
+    console.log('' + c);
 
     // count summary
-    console.log('COUNT-SUMMARY-METHOD:' + c.getCountSummary());
+    console.info('COUNT-SUMMARY-METHOD:');
+    console.log(c.getCountSummary());
 ```
 
 ```
 COUNT-SUMMARY-METHOD:
-   Total Characters　: 112
-          ~ Removed　: 9
- Chinese Characters　: 103
-           ~ Unique　: 81
-        ~ Processed　: 81
+Total Characters　   :   112
+~ Removed　          :     9
+Chinese Characters　 :   103
+~ Unique　           :    81
+~ Processed　        :    81
 ```
 
 ### Total Input

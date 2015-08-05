@@ -1,12 +1,14 @@
 <!doctype html>
 <html>
 <head>
-  <script src="idx-hanyupinyin-micro.js"></script>
-  <script src="idx-extrapinyin.js"></script>
-  <script src="chinese-frequency.js"></script>
+
+</head>
+<body onload="javascript:demo();">
+  <h1>View demo in Developer Console. Firefox? Use Firebug.</h1>
 
   <script type="text/javascript">
 
+  function demo() {
     // sample text
     var str = '隨著劇情的推進，雲高爾和曼聯之間的主帥大戲正逐步推向高潮。荷蘭人一方面將精'
       + '力投入到國家隊的世界盃備戰，另外一方面也不忘適時關注一下自己執教生涯的前途。據《每'
@@ -24,10 +26,12 @@
     console.log('HAS-LIST:' + c.hasList());
 
     // count summary using toString() method
-    console.log('COUNT-SUMMARY-OBJECT-TOSTRING:' + c);
+    console.info('COUNT-SUMMARY-OBJECT-TOSTRING:' );
+    console.log('' + c);
 
     // count summary
-    console.log('COUNT-SUMMARY-METHOD:' + c.getCountSummary());
+    console.info('COUNT-SUMMARY-METHOD:');
+    console.log(c.getCountSummary());
 
     console.log('STRING-LENGTH:' + str.length); // input string length
 
@@ -49,14 +53,18 @@
     console.log('TOTAL-PROCESSED:' + c.getTotalProcessed());
 
     // csv list
-    console.log('CSV-LIST:\r\n' + c.getCsvList());
+    console.log('CSV-LIST:\r\n' + c.getCsv());
 
-    console.log('DATA RANGE: arrays of arrays');
+    console.info('DATA RANGE: arrays of arrays');
     console.log(c.getDataRange()); // data range
 
+  }
   </script>
-</head>
-<body>
-  <h1>View demo in Developer Console. Firefox? Use Firebug.</h1>
+
+  <script src="idx-hanyupinyin-micro.js"></script>
+  <script src="idx-extrapinyin.js"></script>
+  <script src="chinese-frequency.js"></script>
+
+
 </body>
 </html>

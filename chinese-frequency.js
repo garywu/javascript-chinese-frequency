@@ -26,16 +26,14 @@
  */
 
 /**
- * ChineseFrequency.js
- *  + Counts Chinese text. Creates a list of frequency counts.
- *
- * @version 0.2
- * @license http://unlicense.org/ The Unlicense
- * @updated 2015-04-29
- * @author  https://github.com/pffy/ The Pffy Authors
- * @link    https://github.com/pffy/javascript-chinese-frequency
+ * name     : chinese-frequency.js
+ * version  : 3
+ * updated  : 2015-08-05
+ * license  : http://unlicense.org/ The Unlicense
+ * git      : https://github.com/pffy/javascript-chinese-frequency
  *
  */
+
 var ChineseFrequency = function() {
 
   // CONSTANTS
@@ -44,28 +42,29 @@ var ChineseFrequency = function() {
       CRLF = '\r\n',
       MULTIBYTE_SPACE = '　'; // not an ASCII space
 
-  var HEADER_ROW_CSV = 'hz,py,freq';
-
-  // inputs and outputs
   var _hpdx = IdxHanyuPinyinMicro,
       _xpdx = IdxExtraPinyin,
-      _isListAvailable = false,
+      _hasRows = false,
       _metaTotal = 0,
       _metaRemoved = 0,
       _metaHanzi = 0,
       _metaUnique = 0,
       _metaProcessed = 0,
-      _csvList = '',
+      _csvlist = '',
+      _txtlist = '',
       _summary = '',
       _dataRange = [],
       _input = '',
       _output = '';
 
+  var HEADER_ROW_CSV = 'hz,py,freq',
+      HEADER_ROW_TXT = _padSummary('hz [py]' + MULTIBYTE_SPACE) + 'freq';
+
 
   // returns cleaned text input
   function _cleanInput(str) {
 
-    // removes multi-byte punctuation
+    // multi-byte punctuation
     for(var x in _xpdx) {
       str = _replaceAll(x, '', str);
     }
@@ -73,6 +72,7 @@ var ChineseFrequency = function() {
     // FIXME: works for ASCII regex, not for UTF-8
     // removes single-btye
     str = str.replace(/\w|(\|)|(\–)|(\\)|(\[|\])|\s|["'+\.,-\/#!$%\^&\*;:{}=\-_`~()<>?]/gi, '');
+
 
     return str;
   }
@@ -86,24 +86,33 @@ var ChineseFrequency = function() {
     return Object.keys(obj);
   }
 
-  // Solution found here:
-  // http://stackoverflow.com/questions/1144783
   function _replaceAll(find, replace, str) {
+    // Code solution found at:
+    // http://stackoverflow.com/questions/1144783
     return str.replace(new RegExp(find, 'gi'), replace);
   }
 
   // pads summary
   function _padSummary(str) {
-    var pad = '####################';
-    var ans = pad.substring('#', pad.length - str.length) + str;
-    return _replaceAll('#', ' ', ans) + ': ';
+    return '' + _padright(str, LABEL_PADSIZE, ' ') + ': ';
   }
 
-  // TODO: fix this to do up to 4 places
+  // pads and formats frequency count
   function _padZero(str) {
-    var pad = '####';
-    var ans = pad.substring('#', pad.length - str.length) + str;
-    return _replaceAll('#', ' ', ans);
+    str = '' + str;
+    return str.length < FREQ_PADSIZE ? _padleft(str, FREQ_PADSIZE, ' ') : str;
+  }
+
+  // NOTE: _padright and _padleft methods replaces the
+  // Google Apps Script {Utilities.formatString} method
+  // NOTE: String.repeat is now finalized in ES6.
+
+  function _padright(str, padlength, padstring) {
+    return str + padstring.repeat(padlength - str.length);
+  }
+
+  function _padleft(str, padlength, padstring) {
+    return padstring.repeat(padlength - str.length) + str;
   }
 
   // COMPARE: order by freq, ascending
@@ -124,19 +133,39 @@ var ChineseFrequency = function() {
     return 0;
   }
 
+  // creates formatted text summary
+  function _buildSummary() {
+    _summary = ''
+      + _padSummary('Total Characters' + MULTIBYTE_SPACE)
+      + _padZero(_metaTotal)
+      + CRLF + _padSummary('~ Removed' + MULTIBYTE_SPACE)
+      + _padZero(_metaRemoved)
+      + CRLF + _padSummary('Chinese Characters' + MULTIBYTE_SPACE)
+      + _padZero(_metaHanzi)
+      + CRLF + _padSummary('~ Unique' + MULTIBYTE_SPACE)
+      + _padZero(_metaUnique)
+      + CRLF + _padSummary('~ Processed' + MULTIBYTE_SPACE)
+      + _padZero(_metaProcessed);
+  }
+
   return {
 
-    // Returns string representation of this object
+    // Returns string representation of this object.
     toString: function() {
-      return this.getCountSummary();
+      return this.getCsv();
     },
 
-    // Returns CSV list
-    getCsvList: function () {
-      return _csvList;
+    // Returns CSV list.
+    getCsv: function () {
+      return _csvlist;
     },
 
-    // Returns 2D array (data range)
+    // Returns formatted TXT list.
+    getTxt: function () {
+      return _txtlist;
+    },
+
+    // Returns 2D array (data range).
     getDataRange: function () {
       return _dataRange;
     },
@@ -166,32 +195,32 @@ var ChineseFrequency = function() {
       return _metaProcessed;
     },
 
-    // Returns number of rows processed
+    // Returns number of rows processed.
     getTotalRows: function () {
       return this.getTotalProcessed();
     },
 
-    // Returns count summary text
+    // Returns formatted count summary text.
     getCountSummary: function () {
       return _summary;
     },
 
-    // Returns "cleaned" input.
+    // Returns "sanitized" input.
     getInput: function() {
       return _input;
     },
 
-    // Returns true if any text was processed; false, otherwise.
-    hasList: function() {
-      return _isListAvailable;
-    },
-
     // Returns true if any rows processed; false, otherwise.
     hasRows: function() {
-      return this.hasList();
+      return _hasRows;
     },
 
-    // Returns this object. Sets the text input and processes known text.
+    // Returns true if a list is available; false, otherwise.
+    hasList: function() {
+      return this.hasRows();
+    },
+
+     // Returns this object. Sets the text input and processes known text.
     setInput: function(str) {
 
       _metaTotal = str.length;
@@ -221,11 +250,11 @@ var ChineseFrequency = function() {
           if(_hpdx[aHanzi]) {
             aPinyin = _hpdx[aHanzi];
           } else {
-            // do not process unknown characters
+            // do not process unkown characters
             continue;
           }
 
-          aFreq = _input.match(new RegExp('' + aHanzi, 'gi')).length;
+          aFreq = _input.match(new RegExp('' + arr[w], 'gi')).length;
 
           bigc.push({
             hz: aHanzi,
@@ -239,26 +268,25 @@ var ChineseFrequency = function() {
 
       _metaProcessed = numProcessed;
 
+      // builds count summary
+      _buildSummary();
+
       if(_metaProcessed > 0) {
-        _isListAvailable = true;
+        _hasRows = true;
       } else {
-        _summary = '';
         _dataRange = [];
-        _csvList = '';
+        _csvlist = '';
+        _txtlist = _summary;
         return this;
       }
 
       bigc.sort(_desc);
 
-      _summary = ''
-        + CRLF + _padSummary('Total Characters' + MULTIBYTE_SPACE) + _padZero(_metaTotal)
-        + CRLF + _padSummary('~ Removed' + MULTIBYTE_SPACE) + _padZero(_metaRemoved)
-        + CRLF + _padSummary('Chinese Characters' + MULTIBYTE_SPACE) + _padZero(_metaHanzi)
-        + CRLF + _padSummary('~ Unique' + MULTIBYTE_SPACE) + _padZero(_metaUnique)
-        + CRLF + _padSummary('~ Processed' + MULTIBYTE_SPACE) + _padZero(_metaProcessed);
+
 
       var dataRange = [];
       var csv = HEADER_ROW_CSV;
+      var txt = _summary + CRLF + CRLF;
 
       for (var i = 0; i < bigc.length; i++) {
 
@@ -275,13 +303,16 @@ var ChineseFrequency = function() {
         // adds row to CSV list
         csv += CRLF + bigc[i].hz + ',' + bigc[i].py
           + ',' + bigc[i].freq;
+
+        txt += CRLF + _padSummary( bigc[i].hz + ' ' + '[' + bigc[i].py + ']' )
+          + _padZero(bigc[i].freq);
       }
 
       _dataRange = dataRange;
-      _csvList = csv;
+      _csvlist = csv;
+      _txtlist = txt;
 
       return this;
     }
-
   };
 };
