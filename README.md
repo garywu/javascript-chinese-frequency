@@ -8,14 +8,14 @@ JavaScript implementation of the ChineseFrequency object
 + Add the following scripts to your HTML document.
 
 ```html
-  <script src="IdxHanyuPinyinMicro.js"></script>
-  <script src="IdxExtraPinyin.js"></script>
-  <script src="ChineseFrequency.js"></script>
+  <script src="idx-hanyupinyin-micro.js"></script>
+  <script src="idx-extrapinyin.js"></script>
+  <script src="chinese-frequency.js"></script>
 ```
 
 ## GET STARTED
 
-+ Add any or all of this code between `<script type="text/javascript">` and `</script>` tags.
++ Add any or all of this code between `<script>` and `</script>` tags.
 
 ```javascript
 
