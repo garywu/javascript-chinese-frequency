@@ -1,3 +1,8 @@
+> **Org Status**: 🔴 Abandoned
+> **Cloudflare**: N/A
+> **Last Audited**: 2026-04-28
+---
+
 # javascript-chinese-frequency
 JavaScript implementation of the ChineseFrequency object
 
